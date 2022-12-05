@@ -5,7 +5,7 @@ Authors: Kevin Lhoste & Rajeev Mylapalli
 This is the repository of the [LPI](https://www.learningplanetinstitute.org/en), [Dgital Master](https://master.learningplanetinstitute.org/en/digital) "Robotics" course 2022-2023 final projects.
 
 # Course description
-#### Bootcamp: Arduino and Electronics
+1. Bootcamp: Arduino and Electronics
 * Shitty robots - no expereince with coding or electronics required (building remote control robots using servos, RC receover, battery and some trash like cardboard, plastic bottels, cans, wood etc)
 * Introduction to Arduino
 * Environment setup (installing ide and trouble shooting issue with serial port)
