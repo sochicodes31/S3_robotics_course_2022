@@ -54,6 +54,7 @@ https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 https://www.growingwiththeweb.com/2012/06/a-pathfinding-algorithm.html
 https://fab.cba.mit.edu/classes/865.21/topics/path_planning/robotic.html
 https://www.generationrobots.com/media/user-guide-zumo-robot-for-arduino.pdf
+https://create.arduino.cc/projecthub/abdularbi17/ultrasonic-sensor-hc-sr04-with-arduino-tutorial-327ff6 (for checking the US sensor)
 
 
 
