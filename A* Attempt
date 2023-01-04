@@ -1,9 +1,8 @@
 
-// Map size 8*8
 #define row 8
 #define col 8
 
-#define trigPin 4  
+#define trigPin 4    
 #define echoPin 5
 #define dirPin_L 8  // Direction
 #define stepPin_L 10 // Step
@@ -52,7 +51,7 @@ byte H(byte curR, byte curC, byte goalS)  // manhattan distance heauristics func
 }
 
 
-byte G(byte curR, byte curC)  // returns the number of gride have been traverd
+byte G(byte curR, byte curC)  // returns the number of grid have been traversed
 {
   byte gValue, parInd;
   byte rowg, colg;
@@ -72,6 +71,28 @@ byte FV(byte curG, byte curH) // the total "cost" of the path taken; adds H and 
   fValue = curG + curH;
   return fValue;
 }
+
+
+void move(byte direction, byte speed) // sets up potential movements for the robot; 
+{
+      byte leftSpeed = 0;
+      byte rightSpeed = 0;
+      if(direction == 1){
+          leftSpeed = speed;
+          rightSpeed = speed;
+      }else if(direction == 2){
+          leftSpeed = -speed;
+          rightSpeed = -speed;
+      }else if(direction == 3){
+          leftSpeed = -speed;
+          rightSpeed = speed;
+      }else if(direction == 4){
+          leftSpeed = speed;
+          rightSpeed = -speed;
+      }
+}
+double angle_rad = PI/180.0;
+double angle_deg = 180.0/PI;
 
 void setup(){ // sets up the program, builds the map, prints the grid for representation purposes, and takes user input for the goal
   
@@ -106,7 +127,7 @@ void loop(){
     PathList();                                   // List the optimal path
     
     Serial.println("Path[i]");
-    for(byte i=0;i<PF.Map[closedList[cLN-1]/8][closedList[cLN-1]%8].g;i++) {
+    for(byte i=0;i<PF.Map[closedList[cLN-1]/6][closedList[cLN-1]%6].g;i++) {
     Serial.println(Path[i]);
     }
    delay(10000);
@@ -151,13 +172,11 @@ void buildMap() // builds the 6x6 map grid
     PF.Map[i][j].f = 0;
     
     gridIn++;    
-
-    
    }
   }
 }
 
-void printGrid1()  // prints the grid, using indices 0 to 35 to represent the possible paths, we need 0 to 63
+void printGrid1()  // prints the grid, using indices 0 to 63 to represent the possible paths
 {
   for (byte i = 0; i < row; i++)
   {
@@ -249,8 +268,8 @@ void setGoal() // asks user for input to set the goal state/tile
 }
 void possMov(byte gridNom) // checks the possible moves depending on the location of the current tile the bot is on
 {
-  byte rowp = (byte) gridNom / 8;
-  byte colp = gridNom % 8;
+  byte rowp = (byte) gridNom / 6;
+  byte colp = gridNom % 6;
   if (gridNom == 0) // checks the corner tiles | 2 possible moves
   {
     if (PF.Map[rowp][colp+1].index != 1 && PF.Map[rowp][colp+1].index != 2 && (!alreadyOnOL(rowp,colp+1)))
@@ -265,7 +284,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
       AddOpenList(gridNom + 8);
     }
   }
-  else if (gridNom == 5)
+  else if (gridNom == 7)
   {
     if (PF.Map[rowp][colp-1].index != 1 && PF.Map[rowp][colp-1].index != 2 && (!alreadyOnOL(rowp,colp-1)))
     {
@@ -279,7 +298,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
       AddOpenList(gridNom + 8);
     }
   }
-  else if (gridNom == 30)
+  else if (gridNom == 55)
   {
     if (PF.Map[rowp][colp+1].index != 1 && PF.Map[rowp][colp+1].index != 2 && (!alreadyOnOL(rowp,colp+1)))
     {
@@ -293,7 +312,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
       AddOpenList(gridNom - 8);
     }
   }
-  else if (gridNom == 35)
+  else if (gridNom == 63)
   {
     if (PF.Map[rowp][colp-1].index != 1 && PF.Map[rowp][colp-1].index != 2 && (!alreadyOnOL(rowp,colp-1)))
     {
@@ -307,7 +326,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
       AddOpenList(gridNom - 1);
     }   
   }
-  else if (gridNom > 0 && gridNom < 5) // checks the tiles on the outermost edges of the map | 3 possible moves
+  else if (gridNom > 0 && gridNom < 7) // checks the tiles on the outermost edges of the map | 3 possible moves
   {
    if (PF.Map[rowp][colp-1].index != 1 && PF.Map[rowp][colp-1].index != 2 && (!alreadyOnOL(rowp,colp-1)))
     {
@@ -322,7 +341,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
        if (PF.Map[rowp+1][colp].index != 1 && PF.Map[rowp+1][colp].index != 2 && (!alreadyOnOL(rowp+1,colp)))
     {
       PF.Map[rowp+1][colp].parent = gridNom;
-      AddOpenList(gridNom + 6);
+      AddOpenList(gridNom + 8);
     }    
   }
   else if (gridNom%6==0)
@@ -330,7 +349,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
     if (PF.Map[rowp-1][colp].index != 1 && PF.Map[rowp-1][colp].index != 2 && (!alreadyOnOL(rowp-1,colp)))
     {
       PF.Map[rowp-1][colp].parent = gridNom;
-      AddOpenList(gridNom - 6);
+      AddOpenList(gridNom - 8);
     } 
     if (PF.Map[rowp][colp+1].index != 1 && PF.Map[rowp][colp+1].index != 2 && (!alreadyOnOL(rowp,colp+1)))
     {
@@ -340,7 +359,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
        if (PF.Map[rowp+1][colp].index != 1 && PF.Map[rowp+1][colp].index != 2 && (!alreadyOnOL(rowp+1,colp)))
     {
       PF.Map[rowp+1][colp].parent = gridNom;
-      AddOpenList(gridNom + 6);
+      AddOpenList(gridNom + 8);
     }
   }
   else if (gridNom%6==5)
@@ -348,7 +367,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
     if (PF.Map[rowp-1][colp].index != 1 && PF.Map[rowp-1][colp].index != 2 && (!alreadyOnOL(rowp-1,colp)))
     {
       PF.Map[rowp-1][colp].parent = gridNom;
-      AddOpenList(gridNom - 6);
+      AddOpenList(gridNom - 8);
     } 
     if (PF.Map[rowp][colp- 1].index != 1 && PF.Map[rowp][colp- 1].index != 2 && (!alreadyOnOL(rowp,colp-1)))
     {
@@ -358,15 +377,15 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
        if (PF.Map[rowp+1][colp].index != 1 && PF.Map[rowp+1][colp].index != 2 && (!alreadyOnOL(rowp+1,colp)))
     {
       PF.Map[rowp+1][colp].parent = gridNom;
-      AddOpenList(gridNom + 6);
+      AddOpenList(gridNom + 8);
     }
   }
-  else if (gridNom > 30 && gridNom < 35)
+  else if (gridNom > 55 && gridNom < 63)
   {
     if (PF.Map[rowp-1][colp].index != 1 && PF.Map[rowp-1][colp].index != 2 && (!alreadyOnOL(rowp-1,colp)))
     {
       PF.Map[rowp-1][colp].parent = gridNom;
-      AddOpenList(gridNom - 6);
+      AddOpenList(gridNom - 8);
     } 
     if (PF.Map[rowp][colp-1].index != 1 && PF.Map[rowp][colp-1].index != 2 && (!alreadyOnOL(rowp,colp-1)))
     {
@@ -383,7 +402,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
     if (PF.Map[rowp-1][colp].index != 1 && PF.Map[rowp-1][colp].index != 2 && (!alreadyOnOL(rowp-1,colp)))
     {
       PF.Map[rowp-1][colp].parent = gridNom;
-      AddOpenList(gridNom - 6);
+      AddOpenList(gridNom - 8);
     } 
     if (PF.Map[rowp][colp-1].index != 1 && PF.Map[rowp][colp-1].index != 2 && (!alreadyOnOL(rowp,colp-1)))
     {
@@ -477,7 +496,7 @@ void PathList()  // List the optimal path
 void removeFOL(byte rfol) // removes previous potential paths from the openList, in order to get the "best" current path
 {
 
-  for (byte i = 0; i < oLN-30; i++)
+  for (byte i = 0; i < oLN-55; i++)
   {
     if (openList[i] == rfol)
     {
@@ -514,7 +533,7 @@ bool alreadyOnOL(byte rowaol, byte colaol) // checks if the tile is already on t
   byte indexol;
   bool on = false;
 
-  indexol = rowaol*6 + colaol;
+  indexol = rowaol*8 + colaol;
   for (byte i = 0; i < oLN; i++)
   {
     if (openList[i] == indexol)
@@ -528,7 +547,7 @@ bool alreadyOnOL(byte rowaol, byte colaol) // checks if the tile is already on t
 
 byte movement(byte curBotPos,byte curBotDir) {
   
-  curBotPos = PF.Map[Path[0]/6][Path[0]%6].parent;
+  curBotPos = PF.Map[Path[0]/8][Path[0]%8].parent;
   Serial.print("curBotPos_beforemovement:  ");
   Serial.println (curBotPos);
   Serial.print("curBotDir_beforemovement:  ");
@@ -539,10 +558,10 @@ byte movement(byte curBotPos,byte curBotDir) {
 
   while(!isGoal(curBotPos)){
      
-      rowm = Path[i]/6;
-      colm = Path[i]%6;
+      rowm = Path[i]/8;
+      colm = Path[i]%8;
   
-      if(Path[i] == PF.Map[rowm][colm].parent + 6 && curBotDir == 1){
+      if(Path[i] == PF.Map[rowm][colm].parent + 8 && curBotDir == 1){
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
@@ -651,7 +670,7 @@ byte movement(byte curBotPos,byte curBotDir) {
         curBotPos = Path[i];
         i++;
       }
-      else if(Path[i] == PF.Map[rowm][colm].parent - 6 && curBotDir == 3){
+      else if(Path[i] == PF.Map[rowm][colm].parent - 8 && curBotDir == 3){
         Left_Turn();
         curBotDir = 2;
         if (check_obstacle() == 1) {
@@ -683,7 +702,7 @@ byte movement(byte curBotPos,byte curBotDir) {
         curBotPos = Path[i];
         i++;
       }
-      else if(Path[i] == PF.Map[rowm][colm].parent - 6 && curBotDir == 4){
+      else if(Path[i] == PF.Map[rowm][colm].parent - 8 && curBotDir == 4){
         Right_Turn();
         curBotDir = 2;
         if (check_obstacle() == 1) {
@@ -694,7 +713,7 @@ byte movement(byte curBotPos,byte curBotDir) {
         curBotPos = Path[i];
         i++;
       }
-      else if(Path[i] == PF.Map[rowm][colm].parent + 6 && curBotDir == 4){
+      else if(Path[i] == PF.Map[rowm][colm].parent + 8 && curBotDir == 4){
         Left_Turn();
         curBotDir = 1;        
         if (check_obstacle() == 1) {
@@ -731,29 +750,29 @@ byte movement(byte curBotPos,byte curBotDir) {
 void rePathPlan(byte curBotPos,byte curBotDir) // re-design the path if encounter obstacles
 {
  
-  for (byte i = 0; i < 36; i++){
+  for (byte i = 0; i < 63; i++){
 
-    if(PF.Map[i/6][i%6].index == 1){
-      PF.Map[i/6][i%6].index = 0;
+    if(PF.Map[i/8][i%8].index == 1){
+      PF.Map[i/8][i%8].index = 0;
     }
-    PF.Map[i/6][i%6].g = 0;
-    PF.Map[i/6][i%6].h = 0;
-    PF.Map[i/6][i%6].f = 0;
-    PF.Map[i/6][i%6].parent = 0;
+    PF.Map[i/8][i%8].g = 0;
+    PF.Map[i/8][i%8].h = 0;
+    PF.Map[i/8][i%8].f = 0;
+    PF.Map[i/8][i%8].parent = 0;
   }
-   PF.Map[curBotPos/6][curBotPos%6].index = 1;
-   PF.Map[goalN/6][goalN%6].index = 3;
+   PF.Map[curBotPos/8][curBotPos%8].index = 1;
+   PF.Map[goalN/8][goalN%8].index = 3;
   if(curBotDir == 1){
-   PF.Map[(curBotPos + 6)/6][(curBotPos + 6)%6].index = 2;
+   PF.Map[(curBotPos + 8)/8][(curBotPos + 8)%8].index = 2;
   }
   else if(curBotDir == 2){
-   PF.Map[(curBotPos - 6)/6][(curBotPos - 6)%6].index = 2;
+   PF.Map[(curBotPos - 8)/8][(curBotPos - 8)%8].index = 2;
   }
   else if(curBotDir == 3){
-   PF.Map[(curBotPos + 1)/6][(curBotPos + 1)%6].index = 2;
+   PF.Map[(curBotPos + 1)/8][(curBotPos + 1)%8].index = 2;
   }
   else if(curBotDir == 4){
-   PF.Map[(curBotPos - 1)/6][(curBotPos - 1)%6].index = 2;
+   PF.Map[(curBotPos - 1)/8][(curBotPos - 1)%8].index = 2;
   }
   
   oLN=0;
