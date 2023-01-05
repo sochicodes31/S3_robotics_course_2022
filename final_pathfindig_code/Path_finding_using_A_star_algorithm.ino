@@ -3,7 +3,7 @@
 
 #define row 8
 #define col 8
-
+//four pins controlling a pair of motors
 #define trigPin 4    
 #define echoPin 5
 #define dirPin_L 8  // Direction
@@ -11,9 +11,9 @@
 #define dirPin_R 7  // Direction
 #define stepPin_R 9 // Step
 
-const int STEPS_PER_REV = 200;
-float duration, distance; 
-int obstacle;
+const int STEPS_PER_REV = 200; //store the duration of a pulse
+float duration, distance; //store the distance measured by the pulse
+int obstacle; //a variable to store the presence of an obstacle
 
 byte goalN; // goal position on grid
 byte openList[50]; // contains all the possible paths
@@ -25,19 +25,20 @@ byte curBotDir = 1 ; // holds current bot facing direction(1 up  2 down 3 left  
 byte curBotPos2;
 byte curBotDir2;
 
+//defines two structs, Node and Grid
 struct Node
 {
   byte g, h, f;
   byte parent;
   byte index;
-  byte gridNom;
+  byte gridNom; //position of this node on the grid (a number from 0 to 63)
 };
 
 struct Grid
 {
   Node Map[row][col];
 } PF ;
-
+// H() function is a heuristic function that is used in the A* pathfinding algorithm. It takes three arguments:the current row and column indices of the robot, and the goal position on the grid 
 
 byte H(byte curR, byte curC, byte goalS)  // manhattan distance heauristics function
 {
@@ -79,16 +80,16 @@ void move(byte direction, byte speed) // sets up potential movements for the rob
 {
       byte leftSpeed = 0;
       byte rightSpeed = 0;
-      if(direction == 1){
+      if(direction == 1){ //the robot to turn to the forward
           leftSpeed = speed;
           rightSpeed = speed;
-      }else if(direction == 2){
+      }else if(direction == 2){ //the robot to turn to the backward
           leftSpeed = -speed;
           rightSpeed = -speed;
-      }else if(direction == 3){
+      }else if(direction == 3){ //the robot to turn to the left
           leftSpeed = -speed;
           rightSpeed = speed;
-      }else if(direction == 4){
+      }else if(direction == 4){ //the robot to turn to the right
           leftSpeed = speed;
           rightSpeed = -speed;
       }
@@ -102,10 +103,10 @@ void setup(){ // sets up the program, builds the map, prints the grid for repres
 
 
   Serial.begin(9600);
-  buildMap();
+  buildMap(); //initializes the grid map
   printGrid1();
-  printGrid2();
-  setGoal();
+  printGrid2(); //functions, which print the grid map to the serial console for representation purposes
+  setGoal(); //prompts the user to input the goal position on the grid
   
   // set up stepper motor pin out
   pinMode(stepPin_L,OUTPUT);
@@ -159,11 +160,11 @@ void loop(){
 
 void _loop(){                 // performs the A* algorithm, "main" program
   
-  possMov(curBotPos);
+  possMov(curBotPos);  //generates a list of possible movements that the robot can make from its current position
   
-  AddClosedList();
+  AddClosedList(); //which adds the current position to the closedList array and removes it from the openList array
   
-  printGrid2();
+  printGrid2(); // which prints the updated grid map to the serial console
   
 }
 
@@ -437,7 +438,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
 void AddOpenList(byte aol) // adds the potential possible moves to the openList
 {
   
-  openList[oLN++] = aol;
+  openList[oLN++] = aol; // index of the tile being added to the openList
   heuristics(aol);
 }
 
@@ -447,12 +448,12 @@ void heuristics(byte curIn) // calculates the "cost" of the tile
   byte rowh = (byte) curIn / 8;
   byte colh = curIn % 8;
 
-  hH = H(rowh, colh, goalN);
+  hH = H(rowh, colh, goalN); // h value represents the estimated cost to move from the current tile to the goal tile
   PF.Map[rowh][colh].h = hH;
   gH = G(rowh, colh);
-  PF.Map[rowh][colh].g = gH;
+  PF.Map[rowh][colh].g = gH; // g value represents the actual cost to move from the start tile to the current tile
   fH = FV(hH,gH);
-  PF.Map[rowh][colh].f = fH;
+  PF.Map[rowh][colh].f = fH; // f value represents the total cost of moving from the start tile to the goal tile, taking into account both the actual cost (g value) and the estimated cost (h value)
 }
 
 byte getNextFI() // returns the best heuristics value restricted by the current path the bot is taking
@@ -493,7 +494,7 @@ void AddClosedList() // adds the "best" tile to the closedList
   removeFOL(low); 
 }
 
-void PathList()  // List the optimal path
+void PathList()  // List the optimal path from starting point to the goal point
 {
     for(byte i=1;i<PF.Map[closedList[cLN-1]/8][closedList[cLN-1]%8].g+1;i++){
       for(byte j=0;j<cLN;j++){
@@ -556,7 +557,7 @@ bool alreadyOnOL(byte rowaol, byte colaol) // checks if the tile is already on t
   return on;
 }
 
-byte movement(byte curBotPos,byte curBotDir) {
+byte movement(byte curBotPos,byte curBotDir) { //moves the bot to the next tile in the optimal path
   
   curBotPos = PF.Map[Path[0]/8][Path[0]%8].parent;
   Serial.print("curBotPos_beforemovement:  ");
