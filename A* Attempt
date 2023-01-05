@@ -127,7 +127,7 @@ void loop(){
     PathList();                                   // List the optimal path
     
     Serial.println("Path[i]");
-    for(byte i=0;i<PF.Map[closedList[cLN-1]/6][closedList[cLN-1]%6].g;i++) {
+    for(byte i=0;i<PF.Map[closedList[cLN-1]/8][closedList[cLN-1]%8].g;i++) {
     Serial.println(Path[i]);
     }
    delay(10000);
@@ -157,7 +157,7 @@ void _loop(){                 // performs the A* algorithm, "main" program
   
 }
 
-void buildMap() // builds the 6x6 map grid
+void buildMap() // builds the 8x8 map grid
 {
   byte gridIn = 0;
   for (byte i = 0; i < row; i++)
