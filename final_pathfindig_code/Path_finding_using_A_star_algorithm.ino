@@ -1,5 +1,10 @@
+/**
+  Robotics Digital Sciences M1 2022
+  Name: Path Finding Robot
+  Purpose: To find shortest path in an 8x8 (50 cm) grid with pre-defined obstacles
+  @authors Janessa Sochima Aneke, Sakshi Sharma, Sayed Mossavi
+*/
 
-// Map size 8*8
 
 #define row 8
 #define col 8
