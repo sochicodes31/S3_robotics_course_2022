@@ -137,10 +137,10 @@ void loop(){
     PathList();                                   // List the optimal path
     
     Serial.println("Path[i]");
-    for(byte i=0;i<PF.Map[closedList[cLN-1]/6][closedList[cLN-1]%6].g;i++) {
+    for(byte i=0;i<PF.Map[closedList[cLN-1]/8][closedList[cLN-1]%8].g;i++) {
     Serial.println(Path[i]);
     }
-   delay(10000);
+   delay(1000);
     while (1){
       
       movement(curBotPos,curBotDir);
@@ -861,7 +861,7 @@ void Right_Turn() {
 delay(5000);
 Serial.print("MOVE");
 
-move(1, 200);
+move(4, 200);
 delay(3000);
 }
 
@@ -882,6 +882,6 @@ void Left_Turn() {
 delay(5000);
 Serial.print("MOVE");
 
-move(1, 200);
+move(3, 200);
 delay(3000);
 }
