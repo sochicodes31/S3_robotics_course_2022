@@ -93,6 +93,8 @@ void move(byte direction, byte speed) // sets up potential movements for the rob
           rightSpeed = -speed;
       }
 }
+
+
 double angle_rad = PI/180.0;
 double angle_deg = 180.0/PI;
 
@@ -165,7 +167,7 @@ void _loop(){                 // performs the A* algorithm, "main" program
   
 }
 
-void buildMap() // builds the 6x6 map grid
+void buildMap() // builds the 8x8 map grid
 {
   byte gridIn = 0;
   for (byte i = 0; i < row; i++)
@@ -352,7 +354,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
       AddOpenList(gridNom + 8);
     }    
   }
-  else if (gridNom%6==0)
+  else if (gridNom%8==0)
   {
     if (PF.Map[rowp-1][colp].index != 1 && PF.Map[rowp-1][colp].index != 2 && (!alreadyOnOL(rowp-1,colp)))
     {
@@ -429,6 +431,7 @@ void possMov(byte gridNom) // checks the possible moves depending on the locatio
   }
 }
 
+
 }
 
 void AddOpenList(byte aol) // adds the potential possible moves to the openList
@@ -441,8 +444,8 @@ void AddOpenList(byte aol) // adds the potential possible moves to the openList
 void heuristics(byte curIn) // calculates the "cost" of the tile
 {
   byte hH, gH, fH;
-  byte rowh = (byte) curIn / 6;
-  byte colh = curIn % 6;
+  byte rowh = (byte) curIn / 8;
+  byte colh = curIn % 8;
 
   hH = H(rowh, colh, goalN);
   PF.Map[rowh][colh].h = hH;
@@ -458,19 +461,19 @@ byte getNextFI() // returns the best heuristics value restricted by the current 
   byte colf;
   byte lowestF;
   byte lowest = openList[0];
-  rowf = (byte) lowest / 6;
-  colf = lowest % 6;
+  rowf = (byte) lowest / 8;
+  colf = lowest % 8;
   lowestF = PF.Map[rowf][colf].f;
   
   for (byte i = 0; i < oLN; i++)
   {
-    rowf = (byte) openList[i] / 6;
-    colf = openList[i] % 6;
+    rowf = (byte) openList[i] / 8;
+    colf = openList[i] % 8;
     
     if (PF.Map[rowf][colf].f <= lowestF) 
     {
       lowestF = PF.Map[rowf][colf].f;
-      lowest = rowf*6 + colf;
+      lowest = rowf*8 + colf;
     }
   }
   
@@ -483,8 +486,8 @@ void AddClosedList() // adds the "best" tile to the closedList
   byte rowa, cola;
 
   closedList[cLN++] = low;
-  rowa = (byte)low/6;
-  cola = low%6;
+  rowa = (byte)low/8;
+  cola = low%8;
   PF.Map[rowa][cola].index = 1;
   curBotPos = low;
   removeFOL(low); 
@@ -492,9 +495,9 @@ void AddClosedList() // adds the "best" tile to the closedList
 
 void PathList()  // List the optimal path
 {
-    for(byte i=1;i<PF.Map[closedList[cLN-1]/6][closedList[cLN-1]%6].g+1;i++){
+    for(byte i=1;i<PF.Map[closedList[cLN-1]/8][closedList[cLN-1]%8].g+1;i++){
       for(byte j=0;j<cLN;j++){
-        if(PF.Map[closedList[j]/6][closedList[j]%6].g == i){
+        if(PF.Map[closedList[j]/8][closedList[j]%8].g == i){
           Path[i-1]=closedList[j];
         }
       }
@@ -614,7 +617,7 @@ byte movement(byte curBotPos,byte curBotDir) {
 
       }
 
-      else if(Path[i] == PF.Map[rowm][colm].parent - 6 && curBotDir == 2){
+      else if(Path[i] == PF.Map[rowm][colm].parent - 8 && curBotDir == 2){
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
@@ -646,7 +649,7 @@ byte movement(byte curBotPos,byte curBotDir) {
         curBotPos = Path[i];
         i++;
       }
-        else if(Path[i] == PF.Map[rowm][colm].parent + 6 && curBotDir == 2){
+        else if(Path[i] == PF.Map[rowm][colm].parent + 8 && curBotDir == 2){
         Right_Turn();
         Right_Turn();
         curBotDir = 1;
@@ -667,7 +670,7 @@ byte movement(byte curBotPos,byte curBotDir) {
         curBotPos = Path[i];
         i++;
       }
-      else if(Path[i] == PF.Map[rowm][colm].parent + 6 && curBotDir == 3){
+      else if(Path[i] == PF.Map[rowm][colm].parent + 8 && curBotDir == 3){
         Right_Turn();
         curBotDir = 1;
         if (check_obstacle() == 1) {
@@ -833,7 +836,12 @@ void Forward() {
     digitalWrite(stepPin_R,LOW);
     delayMicroseconds(7000);
 }
-delay(2000);
+//delay(2000);
+delay(5000);
+Serial.print("MOVE");
+
+move(1, 200);
+delay(3000);
 }
 
 void Right_Turn() {
@@ -849,7 +857,12 @@ void Right_Turn() {
     digitalWrite(stepPin_R,LOW);
     delayMicroseconds(7000);
 }
-delay(2000);
+//delay(2000);
+delay(5000);
+Serial.print("MOVE");
+
+move(1, 200);
+delay(3000);
 }
 
 void Left_Turn() {
@@ -865,5 +878,10 @@ void Left_Turn() {
     digitalWrite(stepPin_R,LOW);
     delayMicroseconds(7000);
 }
-delay(2000);
+//delay(2000);
+delay(5000);
+Serial.print("MOVE");
+
+move(1, 200);
+delay(3000);
 }
