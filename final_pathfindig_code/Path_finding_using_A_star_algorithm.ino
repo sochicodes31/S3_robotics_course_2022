@@ -1,3 +1,6 @@
+
+// Map size 8*8
+
 #define row 8
 #define col 8
 
@@ -94,7 +97,8 @@ double angle_rad = PI/180.0;
 double angle_deg = 180.0/PI;
 
 void setup(){ // sets up the program, builds the map, prints the grid for representation purposes, and takes user input for the goal
-  
+
+
   Serial.begin(9600);
   buildMap();
   printGrid1();
@@ -111,6 +115,11 @@ void setup(){ // sets up the program, builds the map, prints the grid for repres
   pinMode(trigPin,OUTPUT);
   pinMode(echoPin,INPUT);
 
+delay(5000);
+Serial.print("MOVE");
+
+move(1, 200);
+delay(3000);
 }
 
 // checks if the goal tile has been found
