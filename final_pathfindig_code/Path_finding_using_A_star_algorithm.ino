@@ -577,41 +577,49 @@ byte movement(byte curBotPos,byte curBotDir) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        move(1, 200);
+        //Forward();
         curBotPos = Path[i];
         i++;
       }
       else if(Path[i] == PF.Map[rowm][colm].parent + 1 && curBotDir == 1){
-        Left_Turn();
+        //Left_Turn();
+        move(3, 200);
         curBotDir = 3;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
       else if(Path[i] == PF.Map[rowm][colm].parent - 1 && curBotDir == 1){
-        Right_Turn();
+        //Right_Turn();
+        move(4, 200);
         curBotDir = 4;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
         else if(Path[i] == PF.Map[rowm][colm].parent - 6 && curBotDir == 1){
-        Right_Turn();
-        Right_Turn();
+        //Right_Turn();
+        move(4, 200);
+        move(4, 200);
+        //Right_Turn();
         curBotDir = 2;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
 
@@ -622,7 +630,8 @@ byte movement(byte curBotPos,byte curBotDir) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
@@ -633,31 +642,37 @@ byte movement(byte curBotPos,byte curBotDir) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
 
       }
       else if(Path[i] == PF.Map[rowm][colm].parent - 1 && curBotDir == 2){
-        Left_Turn();
+        //Left_Turn();
+        move(3, 200);
         curBotDir = 4;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
         else if(Path[i] == PF.Map[rowm][colm].parent + 8 && curBotDir == 2){
-        Right_Turn();
-        Right_Turn();
+        //Right_Turn();
+        //Right_Turn();
+        move(4, 200);
+        move(4, 200);
         curBotDir = 1;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+          move(1, 200);
         curBotPos = Path[i];
         i++;
       }
@@ -666,41 +681,49 @@ byte movement(byte curBotPos,byte curBotDir) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
       else if(Path[i] == PF.Map[rowm][colm].parent + 8 && curBotDir == 3){
-        Right_Turn();
+        //Right_Turn();
+        move(4, 200);
         curBotDir = 1;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
       else if(Path[i] == PF.Map[rowm][colm].parent - 8 && curBotDir == 3){
-        Left_Turn();
+        //Left_Turn();
+        move(3, 200);
         curBotDir = 2;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
         else if(Path[i] == PF.Map[rowm][colm].parent - 1 && curBotDir == 3){
-        Right_Turn();
-        Right_Turn();
+        //Right_Turn();
+        //Right_Turn();
+          move(4, 200);
+          move(4, 200);
         curBotDir = 4;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+          move(1, 200);
         curBotPos = Path[i];
         i++;      
       }
@@ -709,44 +732,59 @@ byte movement(byte curBotPos,byte curBotDir) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
       else if(Path[i] == PF.Map[rowm][colm].parent - 8 && curBotDir == 4){
-        Right_Turn();
+        //Right_Turn();
+        move(4, 200);
         curBotDir = 2;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
       else if(Path[i] == PF.Map[rowm][colm].parent + 8 && curBotDir == 4){
-        Left_Turn();
+        //Left_Turn();
+        move(3, 200);
         curBotDir = 1;        
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+        move(1, 200);
         curBotPos = Path[i];
         i++;
       }
         else if(Path[i] == PF.Map[rowm][colm].parent + 1 && curBotDir == 4){
-        Right_Turn();
-        Right_Turn();
+        //Right_Turn();
+        //Right_Turn();
+          move(4, 200);
+          move(4, 200);
         curBotDir = 3;
         if (check_obstacle() == 1) {
            rePathPlan(curBotPos,curBotDir);
            break;
         }
-        Forward();
+        //Forward();
+          move(1, 200);
         curBotPos = Path[i];
         i++;
       }
+    
+    //delay(5000);
+    //Serial.print("MOVE");
+
+   // move(1, 200);
+    //delay(3000);
+    
     }
   Serial.print("curBotPos_aftermovement: ");
   Serial.println (curBotPos); 
@@ -836,12 +874,8 @@ void Forward() {
     digitalWrite(stepPin_R,LOW);
     delayMicroseconds(7000);
 }
-//delay(2000);
-delay(5000);
-Serial.print("MOVE");
+delay(2000);
 
-move(1, 200);
-delay(3000);
 }
 
 void Right_Turn() {
@@ -857,12 +891,7 @@ void Right_Turn() {
     digitalWrite(stepPin_R,LOW);
     delayMicroseconds(7000);
 }
-//delay(2000);
-delay(5000);
-Serial.print("MOVE");
-
-move(4, 200);
-delay(3000);
+delay(2000);
 }
 
 void Left_Turn() {
@@ -878,10 +907,5 @@ void Left_Turn() {
     digitalWrite(stepPin_R,LOW);
     delayMicroseconds(7000);
 }
-//delay(2000);
-delay(5000);
-Serial.print("MOVE");
-
-move(3, 200);
-delay(3000);
+  delay(2000);
 }
