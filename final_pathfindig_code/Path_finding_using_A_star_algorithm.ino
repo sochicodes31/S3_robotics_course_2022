@@ -6,9 +6,15 @@
 */
 
 
+
+
+//Map size 8*8
+
 #define row 8
 #define col 8
+
 //four pins controlling a pair of motors
+
 #define trigPin 4    
 #define echoPin 5
 #define dirPin_L 8  // Direction
@@ -43,7 +49,9 @@ struct Grid
 {
   Node Map[row][col];
 } PF ;
-// H() function is a heuristic function that is used in the A* pathfinding algorithm. It takes three arguments:the current row and column indices of the robot, and the goal position on the grid 
+// H() function is a heuristic function that is used in the A* pathfinding algorithm. 
+//It takes three arguments:the current row and column indices of the robot, and 
+//the goal position on the grid 
 
 byte H(byte curR, byte curC, byte goalS)  // manhattan distance heauristics function
 {
@@ -98,7 +106,11 @@ void move(byte direction, byte speed) // sets up potential movements for the rob
           leftSpeed = speed;
           rightSpeed = -speed;
       }
+      move(1,200);
+      delay(3000);
+      Serial.print("Move");
 }
+
 
 
 double angle_rad = PI/180.0;
@@ -113,26 +125,23 @@ void setup(){ // sets up the program, builds the map, prints the grid for repres
   printGrid2(); //functions, which print the grid map to the serial console for representation purposes
   setGoal(); //prompts the user to input the goal position on the grid
   
-  // set up stepper motor pin out
-  pinMode(stepPin_L,OUTPUT);
-  pinMode(dirPin_L,OUTPUT);
-  pinMode(stepPin_R,OUTPUT);
-  pinMode(dirPin_R,OUTPUT);
-  
+
   // setup ultrasonic sensor
   pinMode(trigPin,OUTPUT);
   pinMode(echoPin,INPUT);
 
 delay(5000);
-Serial.print("MOVE");
+
 
 move(1, 200);
+Serial.println("2"); 
 delay(3000);
+  
+
 }
 
 // checks if the goal tile has been found
 void loop(){ 
-  
   if (!isGoal(curBotPos) && OLE)
   {
     _loop();                                      // the actual performance of the A* algorithm
@@ -279,13 +288,17 @@ void setGoal() // asks user for input to set the goal state/tile
       else
       PF.Map[i][k].index = 0;          // initial free space
     }
-  }
+  } 
   printGrid2();
+  Serial.println("hahahahahhahahahah");
+
 }
+
+
 void possMov(byte gridNom) // checks the possible moves depending on the location of the current tile the bot is on
 {
-  byte rowp = (byte) gridNom / 6;
-  byte colp = gridNom % 6;
+  byte rowp = (byte) gridNom / 8;
+  byte colp = gridNom % 8;
   if (gridNom == 0) // checks the corner tiles | 2 possible moves
   {
     if (PF.Map[rowp][colp+1].index != 1 && PF.Map[rowp][colp+1].index != 2 && (!alreadyOnOL(rowp,colp+1)))
@@ -584,6 +597,7 @@ byte movement(byte curBotPos,byte curBotDir) { //moves the bot to the next tile 
            break;
         }
         move(1, 200);
+        Serial.print("MOVE FORWARD");
         //Forward();
         curBotPos = Path[i];
         i++;
