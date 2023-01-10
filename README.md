@@ -1,4 +1,5 @@
 # Robotics course 2022
+Team: Sochi Aneke, Sakshi Sharma, Sayed Mossavi
 
 Authors: Kevin Lhoste & Rajeev Mylapalli
 
