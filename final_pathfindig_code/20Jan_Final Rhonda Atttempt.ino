@@ -12,8 +12,8 @@
 //Zumo robot set-up
 ZumoMotors motors;
 
-//14 steps, 15 decisions to make
-#define PATH_LEN 15 
+//15 steps, 16 decisions to make
+#define PATH_LEN 16 
 
 //speeds of wheels for forward movement and turns
 #define TURN_SPEED      382
