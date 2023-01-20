@@ -12,8 +12,8 @@
 //Zumo robot set-up
 ZumoMotors motors;
 
-//15 steps, 16 decisions to make
-#define PATH_LEN 16 
+//14 steps, 15 decisions to make
+#define PATH_LEN 15
 
 //speeds of wheels for forward movement and turns
 #define TURN_SPEED      382
@@ -25,11 +25,11 @@ char orientation;
 //grid path from the Google Classroom, 0's represent available squares, 1's represent obstacles
 int grid[8][8]=	{
          {0,0,0,0,1,0,0,1},
-				 {0,0,1,0,0,0,0,0},
-				 {0,0,0,0,0,0,0,0},
-				 {0,1,0,1,0,0,0,1},
-				 {0,0,0,0,0,0,0,0},
-				 {0,1,0,0,1,1,0,0},
+	 {0,0,1,0,0,0,0,0},
+	 {0,0,0,0,0,0,0,0},
+	 {0,1,0,1,0,0,0,1},
+	 {0,0,0,0,0,0,0,0},
+	 {0,1,0,0,1,1,0,0},
          {0,0,0,0,0,0,0,0},
          {0,0,0,1,1,0,0,0},
          };
@@ -123,11 +123,9 @@ int count = 0;
 void loop() { //decision making loop
   if(count == 0){
     for(int i = 0; i < PATH_LEN -1 ; i++){
-          int currentX =  path[i][0];
+          int currentX = path[i][0];
           int currentY = path[i][1];
-          if(i == PATH_LEN -1){ // goal reached
-            break;
-          }      
+               
           int nextX = path[i+1][0];
           int nextY = path[i+1][1];
       
