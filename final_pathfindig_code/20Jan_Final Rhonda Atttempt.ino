@@ -85,6 +85,24 @@ int path[PATH_LEN][2] = { //array is 14 steps with 2 variables x,y
   {7,7}
 };
 
+// {       alternative path
+//   {0,0},
+//   {0,1},
+//   {0,2},
+//   {0,3},
+//   {1,3},
+//   {1,4},
+//   {1,5},
+//   {1,6},
+//   {2,6},
+//   {3,6},
+//   {4,6},
+//   {4,7},
+//   {5,7},
+//   {6,7},
+//   {7,7}, 
+// };
+
 //sets up current and next positions
 int runPath(int curX,int curY,int nextX,int nextY ){
   int returnValue = 1;
